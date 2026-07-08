@@ -155,6 +155,7 @@ for i in ListOfNodes:
     for j in ListOfNodes:
         OD[i,j]=ListOD[i-1][j-1]  * ScaleMatrix
 ```
+**This matrix contains 71,620 daily trips.**
 
 Now, all the elements are defined, edges and arcs, nodes, OD demand Matrix. Recall that the 40 nodes are considered to be the origin and destination of trips (**Canca-Saldanha 40-node DN**).
 
@@ -168,11 +169,15 @@ Peak_hour_factor=0.15  # A 15% of the daily trips correspond to the peak hour.
 PeakOD={}
 for i in ListOfNodes:
     for j in ListOfNodes:
-        PeakOD[i,j]=ListOD[i-1][j-1]  * ScaleMatrix * Peak_hour_factor
+        PeakOD[i,j]=int(ListOD[i-1][j-1]  * ScaleMatrix * Peak_hour_factor)
 ```
+**This matrix contains 10,743 hourly trips.**
+
 ---------------------------------------------------------------------------
 
+### **Network 2** -- **Canca-Saldanha 65-node DN**
 
+The idea of this second scenario is similar to the previous one. The size of the network increases, which makes more difficult to solve strategic and tactical optimization models 
 
 
 
