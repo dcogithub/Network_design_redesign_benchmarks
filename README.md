@@ -53,7 +53,7 @@ ListOfEdges = [
     ]
 ```
 
-Generating arcs, real scaled length of edges, real scaled length of arcs.
+**Generating arcs, real scaled length of edges, real scaled length of arcs.**
 
 ```python
 # List of network arcs
@@ -80,7 +80,7 @@ for (i,j) in ListOfEdges:
 ListofArcsPlusLong=[(i,j,LengthofArcs[i,j]) for (i,j) in ListOfArcs]
 ```
 
-Initial set of lines (the transportation system before constructing the metro systems) and fixed metro lines taking part of the network after the redesign. 
+**Initial set of lines (the transportation system before constructing the metro systems) and fixed metro lines taking part of the network after the redesign.**
 
 ```python
 # Old transit lines (To be redesigned)
@@ -96,10 +96,13 @@ FixedLinea = { # In our case metro lines that will take part of the final transp
     2:[3,7,11,12,19,18,17,15,39,38]
 }
 ```
-The daily OD demand matrix.
+
+![Red bus metro](Fig5_Red_bus_metro.png)
+
+**The daily OD demand matrix.**
 
 ```python
-ListaOD=[
+ListOD=[
 # 1   2  3      4   5  6    7   8   9   10  11   12  13  14  15 16  17  18  19  20  21  22  23  24  25
 [0,	15,	14,	7,	8,	0,	14,	16,	1,	19,	19,	8,	10,	16,	8,	16,	10,	9,	18,	10,	17,	4,	7,	15,	15,	5,	15,	14,	10,	10,	16,	15,	16,	2,	2,	12,	11,	12,	17,	6],
 [14,	0,	19,	4,	0,	16,	8,	0,	10,	18,	17,	6,	18,	3,	2,	6,	15,	17,	16,	4,	4,	14,	0,	13,	15,	6,	13,	1,	9,	16,	4,	18,	13,	9,	2,	1,	10,	11,	19,	7],
@@ -143,17 +146,30 @@ ListaOD=[
 [3,	1,	1,	5,	7,	2,	5,	4,	9,	10,	18,	11,	12,	8,	7,	2,	5,	19,	15,	15,	11,	14,	1,	5,	2,	0,	14,	1,	4,	17,	16,	13,	3,	17,	11,	14,	9,	8,	2,	0]]
 ```
 
-The real OD matrix for the complete day.
+**The real OD matrix for the complete day.**
 
 ```python
 # Average daily OD demand Matrix after scaling
 OD={}
-for i in LNodos:
-    for j in LNodos:
-        OD[i,j]=ListaOD[i-1][j-1]  * ScaleMatrix
+for i in ListOfNodes:
+    for j in ListOfNodes:
+        OD[i,j]=ListOD[i-1][j-1]  * ScaleMatrix
 ```
 
-Now, all the elements are defined, edges and arcs, nodes, OD demand Matrix. Recall that the 40 nodes are considered to be the origin and destination of trips.
+Now, all the elements are defined, edges and arcs, nodes, OD demand Matrix. Recall that the 40 nodes are considered to be the origin and destination of trips (**Canca-Saldanha 40-node DN**).
+
+**The peak-hour OD matrix.**
+
+To obtain the peak-hour demand matrix, we simply multiply the average full day matrix by a peak-hour factor.
+
+```python
+Peak_hour_factor=0.15  # A 15% of the daily trips correspond to the peak hour.
+# Average daily OD demand Matrix after scaling
+PeakOD={}
+for i in ListOfNodes:
+    for j in ListOfNodes:
+        PeakOD[i,j]=ListOD[i-1][j-1]  * ScaleMatrix * Peak_hour_factor
+```
 ---------------------------------------------------------------------------
 
 
